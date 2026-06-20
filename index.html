@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Arcadia — Your community hub for anime and gaming. Trending titles, reviews, and a community that gets it." />
+  <title>Arcadia — Anime & Gaming Community</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/ux-polish.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+  <!-- ── Toast notifications (JS injects into here) ── -->
+  <div id="toast-container" aria-live="assertive"></div>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════ -->
+  <header class="header" id="header">
+    <nav class="nav container" aria-label="Main navigation">
+
+      <a href="#home" class="logo">ARC<span>ADIA</span></a>
+
+      <!-- Desktop nav links (hidden on mobile) -->
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="#home" class="nav__link">Home</a></li>
+        <li><a href="#trending" class="nav__link">Trending</a></li>
+        <li><a href="#anime" class="nav__link">Anime</a></li>
+        <li><a href="#games" class="nav__link">Games</a></li>
+        <li><a href="favorites.html" class="nav__link">Favorites</a></li>
+        <li><a href="#community" class="nav__link">Community</a></li>
+        <li><a href="#newsletter" class="nav__link">Newsletter</a></li>
+        <!-- Auth buttons shown inside mobile menu
+        <li class="nav__auth">
+          <a href="login.html" class="btn btn--ghost btn--sm">Sign In</a>
+          <a href="signup.html" class="btn btn--primary btn--sm">Join Free</a>
+        </li> -->
+      </ul>
+
+      <div class="nav__actions">
+
+        <!-- Expandable search -->
+        <div class="nav-search" id="nav-search-wrap">
+          <button class="nav-search__icon-btn" id="nav-search-btn" aria-label="Toggle search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </button>
+          <input type="search" id="nav-search-input" placeholder="Search…" aria-label="Quick search" />
+        </div>
+
+        <!-- Auth (desktop) -->
+        <!-- <div class="nav__auth" style="display:flex;">
+          <a href="login.html" class="btn btn--ghost btn--sm">Sign In</a>
+          <a href="signup.html" class="btn btn--primary btn--sm">Join Free</a>
+        </div> -->
+
+        <!-- Theme toggle -->
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        </button>
+
+        <!-- Hamburger (mobile only) -->
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false"
+          aria-controls="nav-links">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main id="main-content">
+
+    <!-- ══════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════ -->
+    <section class="hero" id="home" aria-label="Welcome to Arcadia">
+
+      <!-- Background layers -->
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__orbs" aria-hidden="true">
+        <div class="orb orb--1"></div>
+        <div class="orb orb--2"></div>
+        <div class="orb orb--3"></div>
+        <div class="orb orb--4"></div>
+      </div>
+
+      <div class="hero__inner container">
+
+        <!-- Left content -->
+        <div class="hero__content">
+          <div class="hero__eyebrow">✦ Anime &amp; Gaming Community Hub · 2026</div>
+
+          <h1 class="hero__title">
+            <span class="hero__title-line">Your World.</span>
+            <span class="hero__title-line hero__title--accent">Anime. Gaming.</span>
+            <span class="hero__title-line">One Hub.</span>
+          </h1>
+
+          <p class="hero__sub">
+            Discover trending anime, explore the latest games, track your watchlist, and connect with a community that
+            truly lives for this world.
+          </p>
+
+          <div class="hero__cta">
+            <a href="#trending" class="btn btn--primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                aria-hidden="true">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+              Explore Now
+            </a>
+            <a href="#anime" class="btn btn--ghost">Watch Anime</a>
+            <a href="#games" class="btn btn--ghost">Play Games</a>
+          </div>
+        </div>
+
+        <!-- Right visual (desktop) -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__preview-cards">
+            <div class="preview-card">
+              <div class="preview-card__img" style="background:linear-gradient(135deg,#5a3e1b,#d4a855)"></div>
+              <div class="preview-card__body">
+                <div class="preview-card__title">Black Myth: Wukong</div>
+                <div class="preview-card__rating">★ 9.0 · Gaming</div>
+              </div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-card__img" style="background:linear-gradient(135deg,#3d1f6e,#8a6db5)"></div>
+              <div class="preview-card__body">
+                <div class="preview-card__title">Jujutsu Kaisen S3</div>
+                <div class="preview-card__rating">★ 9.4 · Anime</div>
+              </div>
+            </div>
+            <div class="preview-card">
+              <div class="preview-card__img" style="background:linear-gradient(135deg,#1a3a5c,#A0D4E0)"></div>
+              <div class="preview-card__body">
+                <div class="preview-card__title">Elden Ring: Nightreign</div>
+                <div class="preview-card__rating">★ 9.5 · Gaming</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stats bar -->
+      <div class="hero__stats" aria-label="Community stats">
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-count="50000" data-suffix="+">0</span>
+          <span class="hero__stat-lbl">Community Members</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-count="500" data-suffix="+">0</span>
+          <span class="hero__stat-lbl">Anime Tracked</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-count="200" data-suffix="+">0</span>
+          <span class="hero__stat-lbl">Games Reviewed</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num">Weekly</span>
+          <span class="hero__stat-lbl">New Drops</span>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         TRENDING — Combined search + filter
+    ══════════════════════════════════════════════ -->
+    <section class="trending" id="trending" aria-labelledby="trending-heading">
+      <div class="container">
+
+        <div class="section-header-row">
+          <div class="section-header">
+            <h2 class="section-title" id="trending-heading">Trending Now 🔥</h2>
+            <p class="section-sub">Search across all anime and games. Filter, sort, explore.</p>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="trending__controls">
+          <div class="controls__top">
+            <!-- Search -->
+            <div class="search-wrap" role="search">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input type="search" id="search-input" class="search-input"
+                placeholder="Search anime, games, genres, studios…" aria-label="Search all content" />
+            </div>
+
+            <!-- Sort -->
+            <select id="sort-select" class="sort-select" aria-label="Sort results">
+              <option value="rating">Sort: Rating</option>
+              <option value="year">Sort: Newest</option>
+              <option value="title">Sort: A–Z</option>
+            </select>
+          </div>
+
+          <!-- Filter tabs -->
+          <div class="filter-tabs" role="tablist" aria-label="Filter by type">
+            <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="filter-tab" data-filter="anime" role="tab" aria-selected="false">🎌 Anime</button>
+            <button class="filter-tab" data-filter="gaming" role="tab" aria-selected="false">🎮 Games</button>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-grid" id="trending-grid" aria-live="polite" aria-label="Trending results"></div>
+
+        <!-- Load more -->
+        <div class="load-more-wrap">
+          <button id="load-more-trending" class="btn btn--ghost" style="display:none">
+            Load More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         ANIME SECTION
+    ══════════════════════════════════════════════ -->
+    <section class="anime-section" id="anime" aria-labelledby="anime-heading">
+      <div class="container">
+        <div class="section-header-row">
+          <div class="section-header">
+            <h2 class="section-title" id="anime-heading">Top Anime 🎌</h2>
+            <p class="section-sub">Live data from MyAnimeList via Jikan API</p>
+          </div>
+          <a href="https://myanimelist.net/topanime.php" target="_blank" rel="noopener"
+            class="btn btn--ghost btn--sm">See All on MAL ↗</a>
+        </div>
+        <div class="cards-grid" id="anime-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         GAMES SECTION
+    ══════════════════════════════════════════════ -->
+    <section class="games-section" id="games" aria-labelledby="games-heading">
+      <div class="container">
+        <div class="section-header-row">
+          <div class="section-header">
+            <h2 class="section-title" id="games-heading">Top Games 🎮</h2>
+            <p class="section-sub">Curated picks — from all-time classics to 2025 releases</p>
+          </div>
+          <a href="https://store.steampowered.com/charts/topsellers" target="_blank" rel="noopener"
+            class="btn btn--ghost btn--sm">See Steam Charts ↗</a>
+        </div>
+        <div class="cards-grid" id="games-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         FEATURED SPOTLIGHT
+    ══════════════════════════════════════════════ -->
+    <section class="featured" id="featured" aria-labelledby="featured-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="featured-heading">Featured This Week ✦</h2>
+        </div>
+
+        <div class="featured-card reveal">
+          <div class="featured-card__visual">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg" alt="Baldur's Gate 3"
+              onerror="this.closest('.featured-card__visual').classList.add('no-img')" />
+            <div class="featured-card__gradient"></div>
+            <div class="featured-card__glow"></div>
+          </div>
+
+          <div class="featured-card__content">
+            <span class="featured-badge">🏆 Game of the Year · 2023</span>
+            <h3 class="featured-card__title">Baldur's Gate 3</h3>
+            <p class="featured-card__desc">
+              The definitive RPG of this generation. Based on D&amp;D 5e rules, BG3 gives you a world that reacts to
+              everything — your choices, your class, your companions. With over 174 hours of voiced dialogue and
+              virtually infinite replayability, it raised the bar for the entire genre forever.
+            </p>
+            <div class="featured-stats">
+              <div class="stat-item">
+                <span class="stat-item__val">9.8</span>
+                <span class="stat-item__lbl">User Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-item__val">96</span>
+                <span class="stat-item__lbl">Metacritic</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-item__val">10M+</span>
+                <span class="stat-item__lbl">Players</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-item__val">2023</span>
+                <span class="stat-item__lbl">Released</span>
+              </div>
+            </div>
+            <div class="featured-card__actions">
+              <a href="https://www.youtube.com/watch?v=QaHADbFBkKE" target="_blank" rel="noopener"
+                class="btn btn--primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+                Watch Trailer
+              </a>
+              <a href="https://store.steampowered.com/app/1086940/Baldurs_Gate_3/" target="_blank" rel="noopener"
+                class="btn btn--ghost">View on Steam ↗</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         COMMUNITY STATS
+    ══════════════════════════════════════════════ -->
+    <section class="stats-section" id="community" aria-labelledby="stats-heading">
+      <div class="container">
+        <div class="section-header" style="text-align:center; margin-bottom:3rem;">
+          <h2 class="section-title" id="stats-heading">Our Community 🌐</h2>
+          <p class="section-sub">Real fans. Real passion. Growing every day.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card reveal">
+            <div class="stat-card__icon">👥</div>
+            <div class="stat-card__num" data-count="50000" data-suffix="+">0</div>
+            <div class="stat-card__lbl">Anime Fans</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-card__icon">🎌</div>
+            <div class="stat-card__num" data-count="1200" data-suffix="+">0</div>
+            <div class="stat-card__lbl">Anime in Database</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-card__icon">🎮</div>
+            <div class="stat-card__num" data-count="800" data-suffix="+">0</div>
+            <div class="stat-card__lbl">Gaming Titles</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-card__icon">⭐</div>
+            <div class="stat-card__num" data-count="95000" data-suffix="+">0</div>
+            <div class="stat-card__lbl">Ratings Submitted</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         NEWSLETTER
+    ══════════════════════════════════════════════ -->
+    <section class="newsletter" id="newsletter" aria-labelledby="newsletter-heading">
+      <div class="container">
+        <div class="newsletter__inner">
+          <div class="newsletter__text reveal">
+            <h2 class="newsletter__title" id="newsletter-heading">Stay in the Loop 📬</h2>
+            <p class="newsletter__sub">Weekly drops — new anime seasons, game releases, community highlights. No spam,
+              ever. Unsubscribe any time.</p>
+            <p class="newsletter__note">✓ Free forever &nbsp;·&nbsp; ✓ Weekly only &nbsp;·&nbsp; ✓ No ads</p>
+          </div>
+          <div class="reveal" style="flex:1; min-width:280px;">
+            <div class="newsletter__form">
+              <input type="email" id="email-input" class="newsletter__input" placeholder="your@email.com"
+                aria-label="Email address for newsletter" />
+              <button id="subscribe-btn" class="btn btn--primary">Subscribe</button>
+            </div>
+            <p class="newsletter__success" id="subscribe-success" hidden>
+              🎉 Thanks for subscribing! Stay tuned for anime and gaming updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer__grid">
+
+        <!-- Brand -->
+        <div class="footer__brand">
+          <a href="#home" class="logo">ARC<span>ADIA</span></a>
+          <p class="footer__tagline">The community hub for anime &amp; gaming fans worldwide. Built with passion, not
+            just pixels.</p>
+          <div class="footer__social-links">
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="social-icon-btn"
+              aria-label="Twitter / X">𝕏</a>
+            <a href="https://discord.com" target="_blank" rel="noopener" class="social-icon-btn"
+              aria-label="Discord">💬</a>
+            <a href="https://github.com" target="_blank" rel="noopener" class="social-icon-btn"
+              aria-label="GitHub">⌨</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="social-icon-btn"
+              aria-label="YouTube">▶</a>
+          </div>
+        </div>
+
+        <!-- Explore -->
+        <nav class="footer__col" aria-label="Explore links">
+          <h4 class="footer__heading">Explore</h4>
+          <ul role="list">
+            <li><a href="#trending" class="footer__link">Trending</a></li>
+            <li><a href="#anime" class="footer__link">Top Anime</a></li>
+            <li><a href="#games" class="footer__link">Top Games</a></li>
+            <li><a href="#featured" class="footer__link">Featured</a></li>
+            <li><a href="#community" class="footer__link">Community</a></li>
+          </ul>
+        </nav>
+
+        <!-- Anime quick links -->
+        <nav class="footer__col" aria-label="Anime resources">
+          <h4 class="footer__heading">Anime</h4>
+          <ul role="list">
+            <li><a href="https://myanimelist.net" target="_blank" rel="noopener" class="footer__link">MyAnimeList ↗</a>
+            </li>
+            <li><a href="https://www.crunchyroll.com" target="_blank" rel="noopener" class="footer__link">Crunchyroll
+                ↗</a></li>
+            <li><a href="https://anilist.co" target="_blank" rel="noopener" class="footer__link">AniList ↗</a></li>
+            <li><a href="https://www.netflix.com" target="_blank" rel="noopener" class="footer__link">Netflix Anime
+                ↗</a></li>
+          </ul>
+        </nav>
+
+        <!-- Gaming quick links -->
+        <nav class="footer__col" aria-label="Gaming resources">
+          <h4 class="footer__heading">Gaming</h4>
+          <ul role="list">
+            <li><a href="https://store.steampowered.com" target="_blank" rel="noopener" class="footer__link">Steam ↗</a>
+            </li>
+            <li><a href="https://www.ign.com" target="_blank" rel="noopener" class="footer__link">IGN Reviews ↗</a></li>
+            <li><a href="https://www.metacritic.com/game" target="_blank" rel="noopener" class="footer__link">Metacritic
+                ↗</a></li>
+            <li><a href="https://rawg.io" target="_blank" rel="noopener" class="footer__link">RAWG.io ↗</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Arcadia · Built for <strong>DecodeLabs</strong> Full Stack Internship · Batch 2026</p>
+        <div style="display:flex; gap:1.25rem; flex-wrap:wrap;">
+          <a href="#" class="footer__link">Privacy Policy</a>
+          <a href="#" class="footer__link">Terms of Use</a>
+          <a href="https://github.com" target="_blank" rel="noopener" class="footer__link">GitHub Repo ↗</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════════
+       MODAL (JS fills this dynamically)
+  ══════════════════════════════════════════════ -->
+  <div id="modal-container" role="dialog" aria-label="Content details"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       SCRIPTS — order matters!
+       data.js first (defines GAMES + ANIME_FALLBACK + CONFIG)
+       api.js second (uses CONFIG)
+       ui.js third (uses CONFIG)
+       main.js last (uses all of the above)
+  ══════════════════════════════════════════════ -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+
+</html>

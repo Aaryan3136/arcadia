@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════
+   animations.css — Keyframes + reveal classes
+   ═══════════════════════════════════════════ */
+
+/* ── Keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(2deg); }
+  66%       { transform: translateY(-8px) rotate(-2deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(165,133,110,0.3); }
+  50%       { box-shadow: 0 0 40px rgba(165,133,110,0.7), 0 0 80px rgba(165,133,110,0.3); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes scanline {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(30px); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(165,133,110,0.4), 0 0 30px rgba(165,133,110,0.2); }
+  50%       { text-shadow: 0 0 20px rgba(165,133,110,0.8), 0 0 60px rgba(165,133,110,0.4); }
+}
+@keyframes heroTitleIn {
+  0%   { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes borderSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Hero text animations ── */
+.hero__title-line { display: block; animation: heroTitleIn 0.8s both; }
+.hero__title-line:nth-child(1) { animation-delay: 0.1s; }
+.hero__title-line:nth-child(2) { animation-delay: 0.25s; }
+.hero__title-line:nth-child(3) { animation-delay: 0.4s; }
+.hero__eyebrow    { animation: fadeIn 0.8s 0.05s both; }
+.hero__sub        { animation: fadeUp 0.8s 0.5s both; }
+.hero__cta        { animation: fadeUp 0.8s 0.65s both; }
+.hero__stats      { animation: fadeUp 0.8s 0.8s both; }
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Skeleton shimmer ── */
+.skeleton-block,
+.skeleton-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+    var(--bg-surface) 0%,
+    var(--bg-overlay) 40%,
+    var(--bg-surface) 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.skeleton.card { pointer-events: none; }
+.skeleton.card .card__cover { height: 160px; }
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 10px;
+}
+.skeleton-line--title { height: 18px; width: 70%; margin-bottom: 12px; }
+.skeleton-line--short { width: 45%; }
+
+/* ── Toast ── */
+.toast {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-family: var(--ff-head);
+  font-weight: 500;
+  color: var(--txt);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.35s, transform 0.35s;
+  min-width: 200px;
+  max-width: 300px;
+}
+.toast--visible { opacity: 1; transform: translateX(0); }
+.toast--success { border-left: 3px solid #4ade80; }
+.toast--error   { border-left: 3px solid #f87171; }
+.toast--info    { border-left: 3px solid var(--accent2); }
+
+/* ── Card hover glow ── */
+.card:hover { animation: none; }
+.card:hover .card__cover::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 40px rgba(165,133,110,0.2);
+  pointer-events: none;
+}
+
+/* ── Floating orbs animation ── */
+.orb--1 { animation: float 8s ease-in-out infinite; }
+.orb--2 { animation: float 11s ease-in-out infinite 2s; }
+.orb--3 { animation: float 9s ease-in-out infinite 4s; }
+.orb--4 { animation: float 13s ease-in-out infinite 1s; }
+
+/* ── Modal enter ── */
+.modal.active .modal__card     { animation: modalIn 0.3s ease; }
+.modal.active .modal__backdrop { animation: backdropIn 0.25s ease; }
+
+/* ── Gradient text animation ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--clr-mocha), var(--clr-blue), var(--clr-mocha-lt));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* ── Neon glow on accent elements ── */
+.neon-glow { animation: pulse-glow 2.5s ease-in-out infinite; }

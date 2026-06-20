@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<!--
+  PLACEMENT: nexhub/favorites.html (project root)
+  NAVIGATION:
+    - Linked from index.html nav: "Favorites" link (shown when user is "logged in")
+    - Auth guard in favorites.js: redirects to login.html if not authenticated
+    - Card heart buttons in index.html add/remove items via localStorage
+  CSS ADDITIONS: auth.css (page-header, favorites-controls, empty-state, card__fav-btn)
+  JS ADDITIONS: favorites.js (reads localStorage, renders cards, handles remove)
+               auth.js (auth guard check on page load)
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your saved anime and games on Arcadia." />
+  <title>My Favorites — Arcadia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/ux-polish.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       FULL HEADER — same nav as index.html
+       NOTE: In production with a backend/framework,
+       this would be a shared component/template.
+       For now, duplicated with a comment explaining.
+  ══════════════════════════════════════════════ -->
+  <header class="header" id="header">
+    <nav class="nav container" aria-label="Main navigation">
+
+      <a href="index.html" class="logo">ARC<span>ADIA</span></a>
+
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="index.html"          class="nav__link">Home</a></li>
+        <li><a href="index.html#trending" class="nav__link">Trending</a></li>
+        <li><a href="index.html#anime"    class="nav__link">Anime</a></li>
+        <li><a href="index.html#games"    class="nav__link">Games</a></li>
+        <!-- Favorites link — active on this page -->
+        <li>
+          <a href="favorites.html" class="nav__link nav__link--active" aria-current="page">
+            Favorites
+            <span class="nav__fav-badge" id="nav-fav-count"></span>
+          </a>
+        </li>
+        <li class="nav__auth">
+          <!-- Shown by auth.js based on login state -->
+          <button id="nav-logout-btn" class="btn btn--ghost btn--sm" style="display:none">Log Out</button>
+          <!-- <a href="login.html" id="nav-login-link" class="btn btn--ghost btn--sm">Sign In</a> -->
+        </li>
+      </ul>
+
+      <div class="nav__actions">
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          </svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main id="main-content">
+
+    <!-- ══════════════════════════════════════════════
+         PAGE HEADER BANNER
+    ══════════════════════════════════════════════ -->
+    <section class="page-header" aria-label="Favorites page header">
+      <div class="page-header__orb page-header__orb--1" aria-hidden="true"></div>
+      <div class="container">
+        <div class="page-header__inner">
+          <div>
+            <h1 class="page-header__title">My Favorites</h1>
+            <p class="page-header__sub" id="page-sub">Your saved anime and games.</p>
+          </div>
+          <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+            <span class="page-header__count" id="fav-count-badge">
+              <strong id="fav-count-num">0</strong> saved
+            </span>
+            <button class="btn btn--ghost btn--sm" id="clear-all-btn" style="display:none;" aria-label="Remove all favorites">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════
+         FAVORITES CONTENT
+    ══════════════════════════════════════════════ -->
+    <section class="trending" id="favorites-content" aria-labelledby="fav-section-heading">
+      <div class="container">
+
+        <h2 class="sr-only" id="fav-section-heading">Saved items</h2>
+
+        <!-- Controls — only shown when there are favorites -->
+        <div class="favorites-controls" id="fav-controls" hidden>
+          <div class="favorites-controls__row">
+            <!-- Search within favorites -->
+            <div class="search-wrap" role="search">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                type="search"
+                id="fav-search"
+                class="search-input"
+                placeholder="Search your favorites…"
+                aria-label="Search saved items"
+              />
+            </div>
+
+            <!-- Sort -->
+            <select id="fav-sort" class="sort-select" aria-label="Sort favorites">
+              <option value="saved">Sort: Recently Saved</option>
+              <option value="rating">Sort: Rating</option>
+              <option value="title">Sort: A–Z</option>
+            </select>
+          </div>
+
+          <!-- Filter tabs -->
+          <div class="filter-tabs" role="tablist" aria-label="Filter favorites by type">
+            <button class="filter-tab active" data-filter="all"    role="tab" aria-selected="true" >All</button>
+            <button class="filter-tab"         data-filter="anime"  role="tab" aria-selected="false">🎌 Anime</button>
+            <button class="filter-tab"         data-filter="gaming" role="tab" aria-selected="false">🎮 Games</button>
+          </div>
+        </div>
+
+        <!-- Cards grid — populated by favorites.js -->
+        <div class="cards-grid" id="fav-grid" aria-live="polite" aria-label="Favorite items"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER (same as index.html)
+  ══════════════════════════════════════════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer__grid">
+
+        <div class="footer__brand">
+          <a href="index.html" class="logo">ARC<span>ADIA</span></a>
+          <p class="footer__tagline">The community hub for anime &amp; gaming fans worldwide.</p>
+          <div class="footer__social-links">
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Twitter">𝕏</a>
+            <a href="https://discord.com" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Discord">💬</a>
+            <a href="https://github.com"  target="_blank" rel="noopener" class="social-icon-btn" aria-label="GitHub">⌨</a>
+          </div>
+        </div>
+
+        <nav class="footer__col" aria-label="Explore links">
+          <h4 class="footer__heading">Explore</h4>
+          <ul role="list">
+            <li><a href="index.html#trending"  class="footer__link">Trending</a></li>
+            <li><a href="index.html#anime"     class="footer__link">Top Anime</a></li>
+            <li><a href="index.html#games"     class="footer__link">Top Games</a></li>
+            <li><a href="favorites.html"       class="footer__link">My Favorites</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer__col" aria-label="Account links">
+          <h4 class="footer__heading">Account</h4>
+          <ul role="list">
+            <li><a href="login.html"   class="footer__link">Sign In</a></li>
+            <li><a href="signup.html"  class="footer__link">Create Account</a></li>
+            <li><a href="favorites.html" class="footer__link">Favorites</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer__col" aria-label="External links">
+          <h4 class="footer__heading">Links</h4>
+          <ul role="list">
+            <li><a href="https://myanimelist.net" target="_blank" rel="noopener" class="footer__link">MyAnimeList ↗</a></li>
+            <li><a href="https://store.steampowered.com" target="_blank" rel="noopener" class="footer__link">Steam ↗</a></li>
+            <li><a href="https://rawg.io" target="_blank" rel="noopener" class="footer__link">RAWG.io ↗</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 Arcadia · Built for <strong>DecodeLabs</strong> Full Stack Internship · Batch 2026</p>
+        <div style="display:flex; gap:1.25rem;">
+          <a href="#" class="footer__link">Privacy</a>
+          <a href="#" class="footer__link">Terms</a>
+          <a href="https://github.com" target="_blank" rel="noopener" class="footer__link">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" aria-live="assertive"></div>
+  <div id="modal-container" role="dialog" aria-label="Content details"></div>
+
+  <!-- Script load order matters -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

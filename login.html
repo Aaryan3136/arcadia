@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<!--
+  PLACEMENT: nexhub/login.html (project root)
+  NAVIGATION:
+    - Linked from index.html: nav "Sign In" button → login.html
+    - Linked from signup.html: "Already have an account?" → login.html
+    - On successful login (future): redirect → index.html or favorites.html
+  CSS ADDITIONS: auth.css (already created)
+  JS ADDITIONS: auth.js (handles validation + mock localStorage auth)
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign in to Arcadia — your anime and gaming community." />
+  <title>Sign In — Arcadia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/ux-polish.css">
+</head>
+<body class="auth-page">
+
+  <!-- ── Minimal auth header ── -->
+  <header class="auth-header" id="header">
+    <a href="index.html" class="logo">ARC<span>ADIA</span></a>
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+      <span style="font-size:0.85rem; color:var(--txt-muted);">Don't have an account?</span>
+      <a href="signup.html" class="btn btn--ghost btn--sm">Sign Up</a>
+      <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+        <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="display:none">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="auth-main" id="main-content">
+
+    <!-- ══ LEFT: Branding panel (visible tablet+) ══ -->
+    <div class="auth-brand" aria-hidden="true">
+      <div class="auth-brand__orb auth-brand__orb--1"></div>
+      <div class="auth-brand__orb auth-brand__orb--2"></div>
+
+      <div class="auth-brand__content">
+        <a href="index.html" class="logo" style="font-size:1.8rem; margin-bottom:2rem; display:inline-block;">
+          ARC<span>ADIA</span>
+        </a>
+
+        <h2 class="auth-brand__title">
+          Track. Discover.<br>
+          <span>Level Up.</span>
+        </h2>
+
+        <p class="auth-brand__sub">
+          Your personal hub for everything anime and gaming. Save favorites, track progress, and connect with the community.
+        </p>
+
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="auth-feature__icon">🎌</div>
+            <span>Track 500+ anime series across all platforms</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature__icon">🎮</div>
+            <span>Discover and review games from every genre</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature__icon">❤️</div>
+            <span>Save favorites and build your personal list</span>
+          </div>
+          <div class="auth-feature">
+            <div class="auth-feature__icon">🌐</div>
+            <span>Join 50,000+ fans in the community</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative preview cards -->
+      <div class="auth-preview">
+        <div class="auth-preview__card">
+          <div class="auth-preview__card-img" style="background:linear-gradient(135deg,#3d1f6e,#8a6db5)"></div>
+          <div>
+            <div class="auth-preview__card-title">Jujutsu Kaisen S3</div>
+            <div class="auth-preview__card-meta">★ 9.4 · Saved to list</div>
+          </div>
+        </div>
+        <div class="auth-preview__card">
+          <div class="auth-preview__card-img" style="background:linear-gradient(135deg,#5a3e1b,#d4a855)"></div>
+          <div>
+            <div class="auth-preview__card-title">Black Myth: Wukong</div>
+            <div class="auth-preview__card-meta">★ 9.0 · In your favorites</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RIGHT: Login form ══ -->
+    <div class="auth-form-panel">
+      <div class="auth-card" role="main" aria-labelledby="login-heading">
+
+        <div class="auth-card__header">
+          <div class="auth-card__logo">ARC<span>ADIA</span></div>
+          <h1 class="auth-card__title" id="login-heading">Welcome back</h1>
+          <p class="auth-card__sub">Sign in to your account to continue</p>
+        </div>
+
+        <!-- Global error banner (hidden by default, shown by JS on auth failure) -->
+        <div class="auth-error-banner" id="auth-error" role="alert" aria-live="assertive" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span id="auth-error-msg">Invalid email or password.</span>
+        </div>
+
+        <form class="auth-form" id="login-form" novalidate aria-label="Sign in form">
+
+          <!-- Email -->
+          <div class="form-field">
+            <label class="form-label" for="email">Email address</label>
+            <div class="form-input-wrap">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="you@example.com"
+                autocomplete="email"
+                aria-describedby="email-error"
+                required
+              />
+              <svg class="form-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <span class="form-field-error" id="email-error" role="alert"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-field">
+            <label class="form-label" for="password">Password</label>
+            <div class="form-input-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                aria-describedby="password-error"
+                required
+              />
+              <svg class="form-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <!-- Toggle show/hide password -->
+              <button type="button" class="form-pwd-toggle" id="pwd-toggle" aria-label="Show password">
+                <svg id="eye-show" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="eye-hide" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="display:none">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+            <span class="form-field-error" id="password-error" role="alert"></span>
+          </div>
+
+          <!-- Remember me + Forgot password -->
+          <div class="form-row">
+            <label class="form-check">
+              <input type="checkbox" id="remember-me" name="remember" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="form-link" id="forgot-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn--primary btn--auth" id="login-submit">
+            Sign In
+          </button>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider">or continue with</div>
+
+        <!-- Social login (UI only — backend not implemented) -->
+        <div class="auth-social">
+          <button class="social-auth-btn" type="button" aria-label="Continue with Google">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Google
+          </button>
+          <button class="social-auth-btn" type="button" aria-label="Continue with GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </button>
+        </div>
+
+        <div class="auth-card__footer">
+          Don't have an account? <a href="signup.html">Create one free →</a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast container -->
+  <div id="toast-container" aria-live="assertive"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>  
+  <!-- <script src="js/nav.js"></script> -->
+</body>
+</html>
