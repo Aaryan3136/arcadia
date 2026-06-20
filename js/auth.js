@@ -300,7 +300,7 @@ function initLoginForm() {
 
     // Call mock (replace with real API call)
     const response = await fetch(
-      "http://localhost:5000/login",
+      "https://arcadia-backend-moou.onrender.com/login",
       {
         method: "POST",
         headers: {
@@ -416,7 +416,7 @@ function initSignupForm() {
     submit.textContent = 'Creating account…';
 
     const response = await fetch(
-      "http://localhost:5000/signup",
+      "https://arcadia-backend-moou.onrender.com/signup",
       {
         method: "POST",
         headers: {

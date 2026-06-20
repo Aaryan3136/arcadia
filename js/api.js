@@ -53,7 +53,7 @@ const JikanAPI = (() => {
     console.log(item);
     const user = Auth.getUser();
     try {
-      const response = await fetch("http://localhost:5000/favorites", {
+      const response = await fetch("https://arcadia-backend-moou.onrender.com/favorites", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -83,7 +83,7 @@ const JikanAPI = (() => {
 
     try {
 
-      const response = await fetch(`http://localhost:5000/favorites/${id}`, {
+      const response = await fetch(`https://arcadia-backend-moou.onrender.com/favorites/${id}`, {
         method: "DELETE"
       });
 
@@ -110,7 +110,7 @@ const JikanAPI = (() => {
       const user = Auth.getUser();
 
       const response = await fetch(
-        `http://localhost:5000/favorites/${user._id}`
+        `https://arcadia-backend-moou.onrender.com/favorites/${user._id}`
       );
 
       const data = await response.json();
