@@ -12,7 +12,7 @@ Arcadia allows users to explore trending anime and games, create accounts, manag
 
 * User Signup
 * User Login
-* JWT Authentication
+* User Authentication System
 * Protected Favorites System
 * Secure Password Storage
 
@@ -69,7 +69,7 @@ Arcadia allows users to explore trending anime and games, create accounts, manag
 
 ### Authentication
 
-* JWT (JSON Web Token)
+*  Login & Signup
 
 ### External API
 
@@ -124,7 +124,7 @@ Arcadia
 
 1. User creates account
 2. User logs in
-3. JWT token is generated
+3. MongoDB User Storage
 4. User session is maintained
 5. Favorites are linked to authenticated users
 
